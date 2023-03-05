@@ -34,5 +34,5 @@ const router = createBrowserRouter([
     element: <NoteDetail />,
   }, */
 ]);
-
+// 깃 테스트
 export default router;
