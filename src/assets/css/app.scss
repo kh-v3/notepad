@@ -1,0 +1,695 @@
+@import url(./reset.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+$palette__color--deep-red: #C00000;
+$palette__color--red: #FF0000;
+$palette__color--orrange: #FFC000;
+$palette__color--light-green: #92D050;
+$palette__color--green: #00B050;
+$palette__color--light-blue: #00B0F0;
+$palette__color--blue: #0070C0;
+$palette__color--deep-blue: #002060;
+$palette__color--puple: #7030A0;
+$palette__color--grey: #919192;
+$svg--gear-solid: '/assets/img/icon/gear-solid.svg';
+$svg--pen-to-square-solid: '/assets/img/icon/pen-to-square-solid.svg';
+$svg--floppy-disk-solid: '/assets/img/icon/floppy-disk-solid.svg';
+$svg--trash-can-solid-white: '/assets/img/icon/trash-can-solid-white.svg';
+$svg--bars-solid: '/assets/img/icon/bars-solid.svg';
+$svg--xmark-solid-white: '/assets/img/icon/xmark-solid-white.svg';
+$svg--bookmark-solid: '/assets/img/icon/bookmark-solid.svg';
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@mixin hidden-text {
+  position:absolute !important;  
+  width:1px; 
+  height:1px; 
+  overflow:hidden;
+  clip:rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip:rect(1px, 1px, 1px, 1px);
+}
+@mixin icon24 {
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+@mixin icon26 {
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 26px;
+  height: 26px;
+}
+@mixin icon30 {
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+@mixin palette-color {
+  box-sizing: border-box;
+  border: solid black 1px;
+  border-radius: 5px;
+  width: 36px;
+  height: 36px;
+}
+
+body {
+  font-family: 'Nanum Pen Script', cursive;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input[type=text],input[type=password],select {
+  border: 1px #757575 solid;
+  border-radius: 5px;
+  height: 36px;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 20px;
+  box-sizing: border-box;
+  padding-left: 8px;
+}
+button[type=button].btn {
+  background-color: #C8C371;
+  border: 0;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 20px;
+}
+hr {
+  margin: 8px 0;
+}
+.hide {
+  display: none !important;
+}
+.btnIcon {
+  @include icon30;
+  margin: 0 6px;
+  padding: 0px;
+  border: 0px;
+
+  &.svg--gear-solid { background-image: url($svg--gear-solid); }
+  &.svg--pen-to-square-solid { background-image: url($svg--pen-to-square-solid); }
+  &.svg--floppy-disk-solid { background-image: url($svg--floppy-disk-solid); }
+  &.svg--trash-can-solid-white { background-image: url($svg--trash-can-solid-white); }
+  &.svg--bars-solid { background-image: url($svg--bars-solid); }
+  &.svg--xmark-solid-white { background-image: url($svg--xmark-solid-white); }
+  &.svg--bookmark-solid { background-image: url($svg--bookmark-solid); }
+}
+.aIcon {
+  width: 30px;
+  height: 30px;
+  margin: 0 6px;
+
+  img {
+    width: 100%;
+    height: 100%;
+
+    &.svg--gear-solid { content: url($svg--gear-solid); }
+    &.svg--pen-to-square-solid { content: url($svg--pen-to-square-solid); }
+    &.svg--floppy-disk-solid { content: url($svg--floppy-disk-solid); }
+    &.svg--trash-can-solid-white { content: url($svg--trash-can-solid-white); }
+    &.svg--bars-solid { content: url($svg--bars-solid); }
+    &.svg--xmark-solid-white { content: url($svg--xmark-solid-white); }
+    &.svg--bookmark-solid { content: url($svg--bookmark-solid); }
+  }
+}
+.hidden-text {
+  position:absolute !important;  
+  width:1px; 
+  height:1px; 
+  overflow:hidden;
+  clip:rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip:rect(1px, 1px, 1px, 1px);
+}
+
+// 노트 영역에서는 드래그 가능
+.draggable {
+  -webkit-user-select:all;
+  -moz-user-select:all;
+  -ms-user-select:all;
+  user-select:all
+}
+
+// 노트
+.note__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  font-size: 20px;
+  
+  // 노트등
+  .note__spine {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    z-index: 90;
+    background-color: black;
+  }
+  // 노트 컨텐츠
+  .note__body {
+    height: calc(100% - 50px);
+    top: 50px;
+    position: relative;
+
+    background: url(/assets/img/index/LegalPad_index_endMark_1.png);
+    background-size: 100%;
+    background-repeat: repeat-y;
+
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgb(117, 117, 117, 40%);
+      border-radius: 20px;
+    }
+    &::-webkit-scrollbar-track {
+      background: none;
+    }
+  }
+}
+// 노트등
+.note__spine {
+  display: flex;
+  align-items: center;
+
+  .spine__title {
+    flex: 2 1 50%;
+    color: grey;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .spine__side {
+    flex: 1 2 25%;
+    position: relative;
+    display: flex;
+  
+    &.spine__side--right {
+      justify-content: end;
+    }
+  }
+}
+// 노트 컨텐츠
+.note__body {
+  display: flex;
+
+  .note__left-side {
+    flex-basis: 15%;
+    width: 15%;
+    padding-top: 8px;
+  }
+
+  > article {
+    flex-basis: 90%;
+    padding: 0px 20px 20px 20px;
+  }
+  // 글 목록
+  .post__grid {
+    display: grid;
+    position: relative;
+    // grid: 350px / 300px;
+    // grid-template-columns: repeat(4, 1fr);
+    // grid-auto-rows: minmax(0, 350px);
+    grid-template-rows: repeat(auto-fill, 300px);
+    grid-template-columns: repeat(auto-fill, 300px);
+    gap: 4px;
+
+    .post__cell {
+      padding: 8px;
+      box-sizing: border-box;
+    }
+  }
+  // 노트 작성/수정
+  .write-wrap {
+    box-sizing: border-box;
+    padding-top: 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  // 노트 상세
+  .detail-wrap {
+    box-sizing: border-box;
+    padding-top: 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+// 북마크 목록
+.bookmark__list > .bookmark {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 20px;
+  color: white;
+  text-align: left;
+
+  > div:first-child {
+    box-sizing: border-box;
+    flex-basis: 70%;
+    max-width: 70%;
+    padding: 4px 4px 4px 8px;
+    @include ellipsis;
+
+    &.bookmark__selected {
+      flex-basis: 80%;
+      max-width: 80%;
+    }
+    &.bookmark__color--deep-red {
+      background: $palette__color--deep-red;
+    }
+    &.bookmark__color--red {
+      background: $palette__color--red;
+    }
+    &.bookmark__color--orrange {
+      background: $palette__color--orrange;
+    }
+    &.bookmark__color--light-green {
+      background: $palette__color--light-green;
+    }
+    &.bookmark__color--green {
+      background: $palette__color--green;
+    }
+    &.bookmark__color--light-blue {
+      background: $palette__color--light-blue;
+    }
+    &.bookmark__color--blue {
+      background: $palette__color--blue;
+    }
+    &.bookmark__color--deep-blue {
+      background: $palette__color--deep-blue;
+    }
+    &.bookmark__color--puple {
+      background: $palette__color--puple;
+    }
+    &.bookmark__color--grey {
+      background: $palette__color--grey;
+    }
+  }
+  > div:last-child {
+    flex-basis: 15%;
+    width: 15%;
+    background: #e4e4e4;
+    opacity: 85%;
+  }
+}
+// 글 목록
+.post__grid > .post__cell > .post {
+  height: 100%;
+  background-color: rgb(254 253 236 / 40%);
+  border: 1px rgb(254 253 236) solid;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.25); 
+  box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.25);
+  padding: 4px;
+  transition: all 0.2s linear;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .post__link {
+    position: absolute;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+  }
+  .post__title {
+    margin-bottom: 6px;
+    font-size: 26px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .post__thumbnail {
+    margin-bottom: 6px;
+    max-height: 150px;
+    display: flex;
+    justify-content: center;
+
+    img {
+      object-fit: contain;
+      max-width: 100%;
+    }
+  }
+  .post__content {
+    margin-bottom: 4px;
+    min-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .post__regist-date {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+  }
+}
+.post__grid > .post__cell > .post > .tag {
+  display: inline-block;
+
+  .tag__list {
+    list-style: none;
+
+    .tag__item {
+      float: left;
+      padding: 2px 8px;
+      margin-right: 8px;
+      background-color: white;
+      border-radius: 20px;
+      line-height: 20px;
+    }
+  }
+}
+// 노트 작성/수정
+.write-wrap > .write__bookmark {
+  display: grid;
+  grid-template-columns: 25% 1fr;
+  row-gap: 4px;
+
+  .bookmark__select {
+    margin-right: 10px;
+    font-size: 24px;
+  }
+  .bookmark__color {
+    @include palette-color;
+  }
+  .bookmark__name {
+    grid-column: 1 / span 2;
+    font-size: 24px;
+  }
+}
+.write-wrap > .write__title {
+  .title__name {
+    width: 100%;
+    font-size: 24px;
+  }
+}
+.write-wrap > .write__editor {
+  flex: 1;
+
+  .editor-wrap {
+    height: 100%;
+    border: solid black 1px;
+  }
+}
+// 노트 상세
+.detail-wrap > .detail__head {
+  .title {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .regist-date {
+    font-size: 20px;
+    color: grey;
+  }
+}
+.detail-wrap > .detail__content {
+  flex: 1;
+
+  .content {
+    font-size: 24px;
+    height: 100%;
+    border: solid black 1px;
+  }
+}
+
+// 레이어 팝업
+.dim-layer {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(171 170 158 / 70%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  &.dimmed {
+    display: flex;
+  }
+}
+.dim-layer > .spinner {
+  border: 10px solid rgb(171 170 158 / 100%);
+  border-top: 10px solid black;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spinner 3s linear infinite;
+}
+.dim-layer > .popup {
+  background-color: white;
+  border-radius: 5px;
+
+  .popup__header {
+    position: relative;
+
+    .popup__title {
+      margin: 8px 0;
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .popup__close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 6px 8px;
+      background: url(/assets/img/icon/xmark-solid.svg);
+      background-size: contain;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .popup__body {
+    width: 100%;
+    margin: 30px 0;
+    text-align: center;
+  }
+  .popup__footer {
+    margin: 10px 0;
+    text-align: center;
+  }
+}
+.dim-layer > .popup.popup__type--auth {
+  margin: 0 40%;
+  width: 100%;
+}
+.dim-layer > .popup.popup_type--bookmark-manage {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 100%;
+
+  .popup__body {
+    padding: 0 5%;
+    width: 90%;
+  }
+}
+.dim-layer > .popup.popup_type--bookmark-manage .bookmark__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  > * {
+    margin: 0 2px;
+  }
+
+  .bookmark__color {
+    @include palette-color;
+  }
+  .bookmark__name__type--exist {
+    flex-basis: calc(100% - 100px);
+  }
+  .bookmark__name__type--add {
+    flex-basis: calc(100% - 70px);
+  }
+  .bookmark__order {
+    background: url(/assets/img/icon/arrow-up-arrow-down-solid.svg);
+    @include icon30;
+  }
+  .bookmark__delete {
+    background: url(/assets/img/icon/trash-can-solid.svg);
+    @include icon30;
+  }
+  .bookmark__add {
+    background: url(/assets/img/icon/plus-solid.svg);
+    @include icon30;
+  }
+}
+.dim-layer > .popup.popup_type--bookmark-list {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 100%;
+
+  .popup__body {
+    padding: 0 5%;
+    width: 90%;
+  }
+}
+
+// 색 선택 팝업
+.palette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 220px;
+  padding: 8px;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  gap: 2px;
+  background-color: #dedede;
+  border: solid black 1px;
+  border-radius: 5px;
+
+  > div {
+    @include palette-color;
+  }
+}
+.palette__color--deep-red {
+  background-color: $palette__color--deep-red;
+}
+.palette__color--red {
+  background-color: $palette__color--red;
+}
+.palette__color--orrange {
+  background-color: $palette__color--orrange;
+}
+.palette__color--light-green {
+  background-color: $palette__color--light-green;
+}
+.palette__color--green {
+  background-color: $palette__color--green;
+}
+.palette__color--light-blue {
+  background-color: $palette__color--light-blue;
+}
+.palette__color--blue {
+  background-color: $palette__color--blue;
+}
+.palette__color--deep-blue {
+  background-color: $palette__color--deep-blue;
+}
+.palette__color--puple {
+  background-color: $palette__color--puple;
+}
+.palette__color--grey {
+  background-color: $palette__color--grey;
+}
+
+@media (max-width: 800px) {
+  // 노트
+  .note__container {
+    // 노트등
+    // 노트 본문
+    .note__body {
+      background: url(/assets/img/index/LegalPad_phone_endMark_1.png);
+      background-size: 100%;
+      background-repeat: repeat-y;
+      display: block;
+    }
+  }
+  // 노트등
+  .note__spine > .spine__side > .wide-screen {
+    display: none;
+  }
+  .note__spine > .spine__side > .btnIcon {
+    background-size: 20px auto;
+  }
+  .note__spine > .spine__side > .menu-list {
+    position: absolute;
+    background-color: black;
+    border-radius: 5px;
+    top: 45px;
+    right: 6px;
+    padding: 4px;
+  }
+  .note__spine > .spine__side > .menu-list.menu-list__type--menu {
+    // max-width: 100%;
+
+    .menu {
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      
+      .menu__name {
+        width: 75px; // 여기 어떻게 안되나??
+        color: white;
+        font-size: 32px;
+        text-align: start;
+      }
+    }
+  }
+  // 북마크
+  .note__body > .note__left-side {
+    display: none;
+  }
+  // 글 목록
+  .note__body > .post__grid {
+    grid-template-columns: 100%;
+    // grid-template-rows: repeat(auto-fill, 300px);
+  }
+  // 노트 작성/수정
+  .note__body > .write-wrap > .write__bookmark {
+    grid-template-columns: 90% 1fr;
+
+    .bookmark__color {
+      justify-self: end;
+    }
+  }
+
+  // 레이어 팝업
+  .dim-layer {
+    .popup {
+      &.popup__type--auth {
+        margin: 0 20%;
+      }
+      &.popup_type--bookmark-manage {
+        margin: 0 5%;
+      }
+      &.popup_type--bookmark-list {
+        margin: 0 20%;
+      }
+    }
+  }
+}
