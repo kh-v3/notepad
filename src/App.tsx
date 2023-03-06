@@ -21,7 +21,7 @@ function App() {
         </div>
         <div className="spine__title" id="title">lkh's notepad</div>
         <div className="spine__side spine__side--right">
-          <a href="/write.html" className="aIcon wide-screen"><img alt="" className="svg--pen-to-square-solid" /><span className="hidden-text">새 노트</span></a>
+          <a href="/write" className="aIcon wide-screen"><img alt="" className="svg--pen-to-square-solid" /><span className="hidden-text">새 노트</span></a>
           <button type="button" className="btnIcon svg--floppy-disk-solid" id="saveNote"><span className="hidden-text">저장</span></button>
           <button type="button" className="btnIcon svg--trash-can-solid-white wide-screen"><span className="hidden-text">삭제</span></button>
           <button type="button" className="btnIcon svg--bars-solid" id="showMenu"><span className="hidden-text">메뉴</span></button>
@@ -56,6 +56,7 @@ function App() {
             </div>
           </div>
         </aside>
+
         <Outlet />
       </section>
     </div>

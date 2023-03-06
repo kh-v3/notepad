@@ -13,7 +13,7 @@ function NoteList() {
     <article className="post__grid">
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목</div>
           <div className="post__thumbnail">
             <img src={sample1} alt="" />
@@ -29,7 +29,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample2} alt="" />
@@ -42,7 +42,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
@@ -55,7 +55,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample4} alt="" />
@@ -68,7 +68,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample5} alt="" />
@@ -81,7 +81,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample6} alt="" />
@@ -94,7 +94,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample7} alt="" />
@@ -107,7 +107,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
@@ -120,7 +120,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
@@ -133,7 +133,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img alt="" />
@@ -146,7 +146,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
@@ -159,7 +159,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
@@ -172,7 +172,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img alt="" />
@@ -185,7 +185,7 @@ function NoteList() {
       </div>
       <div className="post__cell">
         <div className="post">
-          <a href="/detail.html" className="post__link"><span className="hidden-text">상세보기</span></a>
+          <a href="/detail" className="post__link"><span className="hidden-text">상세보기</span></a>
           <div className="post__title">제목제목제목</div>
           <div className="post__thumbnail">
             <img src={sample3} alt="" />
