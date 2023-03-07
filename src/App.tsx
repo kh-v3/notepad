@@ -7,15 +7,10 @@ import Bookmark from 'components/Bookmark';
 function App() {
   const navigate = useNavigate();
   const [bookmarkList, setBookmarkList] = useState<IBookmark[]>([]);
-  const moveInit = () => {
-    navigate('/');
-  };
-  const moveWrite = () => {
-    navigate('/write');
-  };
-  const moveDetail = () => {
-    navigate('/detail');
-  };
+  const changeBookmark = (bookmarkId: number) => {
+    // request select api
+    // navigate(`/${bookmarkId}`);
+  }
 
   return (
     <div className="note__container">
@@ -47,7 +42,7 @@ function App() {
         <aside className="note__left-side">
           <div className="bookmark__list">
             {bookmarkList.map((item) => (
-              <Bookmark bookmark={item} onClick={moveInit} isSelected={false} />
+              <Bookmark bookmark={item} onClick={() => changeBookmark(item.bm_id)} isSelected={false} />
             ))}
           </div>
         </aside>
