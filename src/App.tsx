@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+
+import {IBookmark} from 'util/type';
+import Bookmark from 'components/Bookmark';
 
 function App() {
   const navigate = useNavigate();
+  const [bookmarkList, setBookmarkList] = useState<IBookmark[]>([]);
   const moveInit = () => {
     navigate('/');
   };
@@ -42,18 +46,9 @@ function App() {
       <section className="note__body">
         <aside className="note__left-side">
           <div className="bookmark__list">
-            <div className="bookmark" onClick={moveInit}>
-              <div className="bookmark__color--red">선택 아님</div>
-              <div></div>
-            </div>
-            <div className="bookmark" onClick={moveWrite}>
-              <div className="bookmark__color--green bookmark__selected">선택</div>
-              <div></div>
-            </div>
-            <div className="bookmark" onClick={moveDetail}>
-              <div className="bookmark__color--blue">일이삼사오육칠팔구십</div>
-              <div></div>
-            </div>
+            {bookmarkList.map((item) => (
+              <Bookmark bookmark={item} onClick={moveInit} isSelected={false} />
+            ))}
           </div>
         </aside>
 
