@@ -3,7 +3,7 @@ export interface IBookmark {
   color: string;
   bm_name: string;
   bm_order: number;
-};
+}
 
 export interface INote {
   id: number;
@@ -11,4 +11,9 @@ export interface INote {
   thumbnailSrc: string;
   content: string;
   registDate: string;
-};
+}
+
+export interface IUser {
+  displayName: string;
+  email: string;
+}

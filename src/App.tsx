@@ -1,17 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
 
-import {IBookmark} from 'util/type';
+import { fbAuth } from './firebase';
+import { IBookmark } from 'util/type';
+import { useAppDispatch } from 'store';
+import { setUser } from 'store/userSlice';
 import Bookmark from 'components/Bookmark';
 import NoteSpine from "components/NoteSpine";
 
 function App() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [bookmarkList, setBookmarkList] = useState<IBookmark[]>([]);
   const changeBookmark = (bookmarkId: number) => {
     // request select api
     // navigate(`/${bookmarkId}`);
   }
+
+  useEffect(() => {
+    onAuthStateChanged(fbAuth, (user) => {
+      if (user) {
+        alert('user info exist!!');
+        dispatch(setUser({
+          displayName: user.displayName || '',
+          email: user.email || '',
+        }));
+        // 나중에 서버에 유저정보 필요하면 쓰면 될듯
+        // console.log('>>> ', user.getIdTokenResult().then((res) => {console.log(res)}));
+        // setUserObj(user);
+      } else {
+        alert('user info not exist!!');
+        console.log(user);
+        // setUserObj(null);
+      }
+
+      // setInit(true);
+    });
+  }, []);
 
   return (
     <div className="note__container">
