@@ -28,11 +28,9 @@ function App() {
         }));
         // 나중에 서버에 유저정보 필요하면 쓰면 될듯
         // console.log('>>> ', user.getIdTokenResult().then((res) => {console.log(res)}));
-        // setUserObj(user);
       } else {
         alert('user info not exist!!');
         console.log(user);
-        // setUserObj(null);
       }
 
       // setInit(true);
