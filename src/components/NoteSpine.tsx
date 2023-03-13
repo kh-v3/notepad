@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
 
-// import { useAppSelector } from 'store';
-// import { getUser } from 'store/userSlice';
-import {useLocation} from "react-router-dom";
+import { useAppSelector, useAppDispatch } from 'store';
+import { getUser, resetUser } from 'store/userSlice';
+import { setPopup } from 'store/popupSlice';
+import { fbSignOut } from '../firebase';
 
 function NoteSpine() {
   const location = useLocation();
-  // const [user, setUser] = useState(useAppSelector(getUser));
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
   const [currentPage, setCurrentPage] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const setDisplayButton = () => {
@@ -20,7 +23,25 @@ function NoteSpine() {
     } else {
       setIsMobile(true);
     }
-  }
+  };
+  const onClickSetting = () => {
+    if (user.email === ''){
+      // popup signIn
+      dispatch(setPopup({
+        dimmed: true,
+        popupAuth: true,
+        // nextStep: 진행했어야할 로직 저장 후 실행
+      }));
+      return;
+    }
+
+    // popup setting
+    console.log('popup setting');
+  };
+  const onClickSignOut = async () => {
+    dispatch(resetUser());
+    await fbSignOut();
+  };
 
   useEffect(() => {
     console.log(location);
@@ -53,11 +74,11 @@ function NoteSpine() {
   return (
     <header className="note__spine">
       <div className="spine__side">
-        <button type="button" className="btnIcon svg--gear-solid">
+        <button type="button" className="btnIcon svg--gear-solid" onClick={onClickSetting}>
           <span className="hidden-text">설정</span>
         </button>
       </div>
-      <div className="spine__title" id="title">lkh's notepad</div>
+      <div className="spine__title" onClick={onClickSignOut}>lkh's notepad</div>
       <div className="spine__side spine__side--right">
       {currentPage === 'list' && !isMobile &&
         <a href="/write" className="aIcon">

@@ -8,6 +8,7 @@ import { useAppDispatch } from 'store';
 import { setUser } from 'store/userSlice';
 import Bookmark from 'components/Bookmark';
 import NoteSpine from "components/NoteSpine";
+import DimLayer from 'components/DimLayer';
 
 function App() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function App() {
     onAuthStateChanged(fbAuth, (user) => {
       if (user) {
         alert('user info exist!!');
+        console.log('user is ', user.email);
         dispatch(setUser({
           displayName: user.displayName || '',
           email: user.email || '',
@@ -38,21 +40,25 @@ function App() {
   }, []);
 
   return (
-    <div className="note__container">
-      <NoteSpine />
+    <>
+      <div className="note__container">
+        <NoteSpine />
 
-      <section className="note__body">
-        <aside className="note__left-side">
-          <div className="bookmark__list">
-            {bookmarkList.map((item) => (
-              <Bookmark bookmark={item} onClick={() => changeBookmark(item.bm_id)} isSelected={false} />
-            ))}
-          </div>
-        </aside>
+        <section className="note__body">
+          <aside className="note__left-side">
+            <div className="bookmark__list">
+              {bookmarkList.map((item) => (
+                <Bookmark bookmark={item} onClick={() => changeBookmark(item.bm_id)} isSelected={false} />
+              ))}
+            </div>
+          </aside>
 
-        <Outlet />
-      </section>
-    </div>
+          <Outlet />
+        </section>
+      </div>
+
+      <DimLayer />
+    </>
   );
 }
 

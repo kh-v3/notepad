@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import userReducer from 'store/userSlice';
+import popupReducer from 'store/popupSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    popup: popupReducer,
   },
 });
 

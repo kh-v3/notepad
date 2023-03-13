@@ -17,3 +17,14 @@ export interface IUser {
   displayName: string;
   email: string;
 }
+
+export interface IPopup {
+  dimmed: boolean;
+  popupAuth: boolean;
+}
+
+export interface IResult<T> {
+  result: boolean;
+  message?: string;
+  data?: T;
+}
