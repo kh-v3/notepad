@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 
-import { useAppSelector } from 'store';
-import { getUser } from 'store/userSlice';
+// import { useAppSelector } from 'store';
+// import { getUser } from 'store/userSlice';
 import {useLocation} from "react-router-dom";
 
 function NoteSpine() {
   const location = useLocation();
-  const user = useAppSelector(getUser);
+  // const [user, setUser] = useState(useAppSelector(getUser));
   const [currentPage, setCurrentPage] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const setDisplayButton = () => {
@@ -59,33 +59,33 @@ function NoteSpine() {
       </div>
       <div className="spine__title" id="title">lkh's notepad</div>
       <div className="spine__side spine__side--right">
-      {user && currentPage === 'list' && !isMobile &&
+      {currentPage === 'list' && !isMobile &&
         <a href="/write" className="aIcon">
           <img alt="" className="svg--pen-to-square-solid"/><span className="hidden-text">새 노트</span>
         </a>
       }
-      {user && currentPage === 'write' && !isMobile &&
+      {currentPage === 'write' && !isMobile &&
         <button type="button" className="btnIcon svg--floppy-disk-solid">
           <span className="hidden-text">저장</span>
         </button>
       }
-      {user && currentPage === 'detail' && !isMobile &&
+      {currentPage === 'detail' && !isMobile &&
         <button type="button" className="btnIcon svg--trash-can-solid-white">
           <span className="hidden-text">삭제</span>
         </button>
       }
-      {user && currentPage === 'list' && isMobile &&
+      {currentPage === 'list' && isMobile &&
         <button type="button" className="btnIcon svg--bars-solid">
           <span className="hidden-text">메뉴</span>
         </button>
       }
-      {user && currentPage === 'list' && isMobile &&
+      {currentPage === 'list' && isMobile &&
         <button type="button" className="btnIcon svg--xmark-solid-white">
           <span className="hidden-text">닫기</span>
         </button>
       }
         <div className="menu-list menu-list__type--menu hide">
-        {user && currentPage === 'list' && isMobile &&
+        {currentPage === 'list' && isMobile &&
           <div className="menu moveWriteNote">
             <button type="button" className="btnIcon svg--pen-to-square-solid">
               <span className="hidden-text">새 노트</span>
@@ -93,7 +93,7 @@ function NoteSpine() {
             <div className="menu__name">새 노트</div>
           </div>
         }
-        {user && currentPage === 'list' && isMobile &&
+        {currentPage === 'list' && isMobile &&
           <div className="menu" id="showBookmarkList">
             <button type="button" className="btnIcon svg--bookmark-solid">
               <span className="hidden-text">북마크</span>
