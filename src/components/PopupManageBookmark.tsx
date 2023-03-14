@@ -6,103 +6,86 @@ import { setPopup } from 'store/popupSlice';
 import { getBookmark } from 'store/bookmarkSlice';
 import Palette from 'components/Palette';
 
+let targetBookmark: HTMLDivElement | null = null;
+let targetBookmarkColor: string = '';
+
 const PopupManageBookmark = () => {
   const dispatch = useAppDispatch();
-  // const bookmarkList = useAppSelector(getBookmark);
   const [bookmarkList, setBookmarkList] = useState<IBookmark[]>([]);
-  const [palette, setPalette] = useState<IPalette[]>([]);
-  const [newPalette, setNewPalette] = useState<IPalette>({
+  const [palette, setPalette] = useState<IPalette>({
     show: false,
     top: 0,
     left: 0,
-    selectedColor: '',
   });
   const [newBookmarkName, setNewBookmarkName] = useState('');
-  const refPalette = useRef<null | HTMLDivElement>(null);
-  const refNewPalette = useRef<null | HTMLDivElement>(null);
+  const refNewBookmarkColor = useRef<HTMLDivElement>(null);
   const onClickClosePopup = () => {
     dispatch(setPopup({
       dimmed: false,
       popupManageBookmark: false,
     }));
   };
-  const showPalette = (indexBookmark: number | string, e: React.MouseEvent) => {
-    const target = e.target as HTMLDivElement;
+  const showPalette = (e: React.MouseEvent) => {
+    targetBookmark = e.target as HTMLDivElement;
+    targetBookmarkColor = '';
 
-    if (indexBookmark === 'new') {
-      setNewPalette({
-        show: true,
-        top: target.getBoundingClientRect().top + 40,
-        left: target.getBoundingClientRect().left,
-        selectedColor: '',
-      });
-    } else {
-      const changedPalette = palette.map((item, i) => {
-        if (i === indexBookmark) {
-          return {
-            show: true,
-            top: target.getBoundingClientRect().top + 40,
-            left: target.getBoundingClientRect().left,
-            selectedColor: '',
-          }
-        } else {
-          return item;
-        }
-      });
-
-      setPalette(changedPalette);
-    }
+    setPalette({
+      show: true,
+      top: targetBookmark.getBoundingClientRect().top + 40,
+      left: targetBookmark.getBoundingClientRect().left,
+    });
   };
-  const closePalette = (indexPalette: number | string, selectedColor: string) => {
-    console.log(indexPalette, selectedColor);
-
-    if (indexPalette === 'new' && refNewPalette.current) {
-      refNewPalette.current.classList.value = 'bookmark__color ' + selectedColor;
-
-      setNewPalette({
-        show: false,
-        top: 0,
-        left: 0,
-        selectedColor: selectedColor,
-      });
-    } else if (typeof indexPalette === 'number') {
-      console.log('bookmark list!!');
+  const closePalette = (selectedColor: string) => {
+    console.log(selectedColor);
+    if (!targetBookmark) {
+      console.warn('targetBookmark is null!!');
+      return;
     }
-    // refNewPalette.current?.classList = 'bookmark__color ' + selectedColor;
-    // setPalette({
-    //   ...palette,
-    //   [indexPalette]: {
-    //     ...palette[indexPalette],
-    //     selectedColor: selectedColor,
-    //   }
-    // });
+
+    targetBookmark.classList.value = 'bookmark__color ' + selectedColor;
+    targetBookmarkColor = selectedColor;
+    setPalette({
+      show: false,
+      top: 0,
+      left: 0,
+    });
+
+    targetBookmark = null;
   };
   const onChangeNewBookmarkName = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setNewBookmarkName(e.target.value);
   };
   const onClickAddNewBookmark = () => {
-    setPalette((prev) => {
-      return [...prev, newPalette];
-    });
+    if (newBookmarkName.trim() === '') {
+      alert('뷱마크명을 입력해주세요.');
+      return;
+    }
+    let color = '';
+    const iterator = refNewBookmarkColor.current?.classList.values();
+
+    if (!iterator) {
+      console.warn('refNewBookmarkColor is null!!');
+      return;
+    }
+    for (const item of iterator) {
+      if (item.indexOf('palette__color') === 0) {
+        color = item;
+      }
+    }
     setBookmarkList((prev) => {
       return [...prev, {
         bm_id: 999,
-        color: newPalette.selectedColor,
-        bm_name: newBookmarkName,
+        color: color,
+        bm_name: newBookmarkName.trim(),
         bm_order: bookmarkList.length,
       }];
     });
+    setNewBookmarkName('');
   };
 
   useEffect(() => {
     console.log('detect change bookmark list : ', bookmarkList);
 
-    setPalette(bookmarkList.map(() => ({
-      show: false,
-      top: 0,
-      left: 0,
-      selectedColor: '',
-    })));
   }, [bookmarkList]);
 
   return (
@@ -117,17 +100,8 @@ const PopupManageBookmark = () => {
           <div className="bookmark__item bookmarkItem" key={i}>
             <div
               className={`bookmark__color ${bookmark.color}`}
-              onClick={showPalette.bind(this, i)}
-              ref={refPalette}
+              onClick={showPalette}
             ></div>
-          { palette[i]?.show && (
-            <Palette
-              indexPalette={i}
-              top={palette[i].top}
-              left={palette[i].left}
-              closePalette={closePalette}
-            />)
-          }
             <input type="text" className="bookmark__name__type--exist" value={bookmark.bm_name} />
             <div className="bookmark__order"></div>
             <div className="bookmark__delete"></div>
@@ -135,29 +109,28 @@ const PopupManageBookmark = () => {
         ))}
         </div>
         <hr />
-          <div className="bookmark__item bookmarkItem">
-            <div
-              className="bookmark__color palette__color--deep-red"
-              onClick={showPalette.bind(this, 'new')}
-              ref={refNewPalette}
-            ></div>
-          { newPalette?.show &&
-            <Palette
-              indexPalette='new'
-              top={newPalette.top}
-              left={newPalette.left}
-              closePalette={closePalette}
-            />
-          }
-            <input
-              type="text"
-              className="bookmark__name__type--add"
-              placeholder="북마크 명을 입력해주세요."
-              onChange={onChangeNewBookmarkName}
-              value={newBookmarkName}
-            />
-            <div className="bookmark__add" onClick={onClickAddNewBookmark}></div>
-          </div>
+        <div className="bookmark__item bookmarkItem">
+          <div
+            className="bookmark__color palette__color--deep-red"
+            onClick={showPalette}
+            ref={refNewBookmarkColor}
+          ></div>
+          <input
+            type="text"
+            className="bookmark__name__type--add"
+            placeholder="북마크 명을 입력해주세요."
+            onChange={onChangeNewBookmarkName}
+            value={newBookmarkName}
+          />
+          <div className="bookmark__add" onClick={onClickAddNewBookmark}></div>
+        </div>
+      {palette.show &&
+        <Palette
+          top={palette.top}
+          left={palette.left}
+          closePalette={closePalette}
+        />
+      }
       </div>
       <div className="popup__footer">
         <button type="button" className="btn buttonOk">확인</button>

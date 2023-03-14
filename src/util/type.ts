@@ -2,7 +2,6 @@ export interface IPalette {
   show: boolean,
   top: number,
   left: number,
-  selectedColor: string,
 }
 
 export interface IBookmark {

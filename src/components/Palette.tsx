@@ -1,13 +1,12 @@
 import * as React from "react";
 
 interface props {
-  indexPalette: number | string,
   top: number,
   left: number,
   closePalette: Function,
 }
 
-const Palette = ({ indexPalette, top = 0, left = 0, closePalette }: props) => {
+const Palette = ({ top = 0, left = 0, closePalette }: props) => {
   const style:React.CSSProperties = {
     top: top + 'px',
     left: left + 'px',
@@ -15,7 +14,7 @@ const Palette = ({ indexPalette, top = 0, left = 0, closePalette }: props) => {
   const selectColor = (e: React.MouseEvent) => {
     const target = e.target as HTMLDivElement;
 
-    closePalette(indexPalette, target.classList[0]);
+    closePalette(target.classList[0]);
   }
 
   return (
