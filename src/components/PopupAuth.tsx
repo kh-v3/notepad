@@ -29,8 +29,8 @@ function PopupAuth() {
           popupAuth: false,
         }));
       })
-      .catch((error) => {
-        alert(error.message);
+      .catch((fail) => {
+        alert(fail.message);
       });
   };
 
