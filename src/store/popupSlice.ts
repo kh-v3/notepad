@@ -6,6 +6,7 @@ import { IPopup } from 'util/type';
 const initialState: IPopup = {
   dimmed: false,
   popupAuth: false,
+  popupManageBookmark: false,
 };
 
 export const popupSlice = createSlice({
@@ -13,8 +14,9 @@ export const popupSlice = createSlice({
   initialState,
   reducers: {
     setPopup: (state, action: PayloadAction<IPopup>) => {
-      state.dimmed = action.payload.dimmed;
-      state.popupAuth = action.payload.popupAuth;
+      state.dimmed = action.payload.dimmed || false;
+      state.popupAuth = action.payload.popupAuth || false;
+      state.popupManageBookmark = action.payload.popupManageBookmark || false;
     },
   },
 });
