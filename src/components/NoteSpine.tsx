@@ -30,13 +30,15 @@ function NoteSpine() {
       dispatch(setPopup({
         dimmed: true,
         popupAuth: true,
-        // nextStep: 진행했어야할 로직 저장 후 실행
+        // todo nextStep: 진행했어야할 로직 저장 후 실행
       }));
       return;
     }
 
-    // popup setting
-    console.log('popup setting');
+    dispatch(setPopup({
+      dimmed: true,
+      popupManageBookmark: true,
+    }));
   };
   const onClickSignOut = async () => {
     dispatch(resetUser());

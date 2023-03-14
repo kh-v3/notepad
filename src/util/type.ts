@@ -1,3 +1,10 @@
+export interface IPalette {
+  show: boolean,
+  top: number,
+  left: number,
+  selectedColor: string,
+}
+
 export interface IBookmark {
   bm_id: number;
   color: string;
@@ -20,7 +27,8 @@ export interface IUser {
 
 export interface IPopup {
   dimmed: boolean;
-  popupAuth: boolean;
+  popupAuth?: boolean;
+  popupManageBookmark?: boolean;
 }
 
 export interface IResult<T> {

@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import userReducer from 'store/userSlice';
 import popupReducer from 'store/popupSlice';
+import bookmarkReducer from 'store/bookmarkSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     popup: popupReducer,
+    bookmark: bookmarkReducer,
   },
 });
 

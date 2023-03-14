@@ -38,7 +38,7 @@ function PopupAuth() {
     <div className="popup popup__type--auth">
       <div className="popup__header">
         <div className="popup__title">Are you lkh?</div>
-        <div className="popup__close closePopup" onClick={onClickClosePopup}></div>
+        <div className="popup__close" onClick={onClickClosePopup}></div>
       </div>
       <div className="popup__body">
         <input
